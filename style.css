@@ -1,0 +1,12 @@
+.wrapper {
+  position: relative;
+  margin-right: 15px;
+  margin-bottom: 20px;
+}
+
+.dashboard {
+  background: #3498db;
+  padding: 20px;
+}
+
+
