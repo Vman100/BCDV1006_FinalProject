@@ -1,20 +1,25 @@
-const getLastBlockNo = "module=proxy&action=eth_blockNumber"
-
-//fetch lastest block number
+//fetch Data
 const fetchData = (action) => {
   const apiKey = "5XKQA6GX56G7IZUUTEZ88X916BQNI8J2EX"
   const url=`https://api.etherscan.io/api?${action}&${apiKey}`
   return fetch(url)
 }
 
-fetchData(getLastBlockNo).then(Response => {
+// convert response to json
+function json(Response) {
   if (Response.ok) {
-    // convert response to json
     return Response.json()
   }
   throw new Error('Api did not respond')
-}).then(Response => {
+}
+
+// get block information by number
+const getBlockByNumber = (number) => {
+  return `module=proxy&action=eth_getBlockByNumber&tag=${number}&boolean=true`
+}
+
+fetchData(getBlockByNumber("latest")).then(json).then(Response => {
   // add to html
   let lastBlock = document.getElementById("lastblockno")
-  lastBlock.textContent = Number(Response.result) 
+  lastBlock.textContent = Number(Response.result.number)
 })
