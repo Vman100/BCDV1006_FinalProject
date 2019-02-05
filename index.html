@@ -1,17 +1,32 @@
 <!DOCTYPE html>
 <html>
-  <script type="text/javascript" async src="app.js"></script>
-  <head>
-    <meta charset="utf-8" />
-    <title>Ethereum Blockchain Dashboard</title>
-    <link rel="stylesheet" type="text/css" href="style.css" />
-  </head>
-  <body>
-    <h2>Ethereum Blockchain Dashboard</h2>
-    <div class="wrapper">
-      <div class="dashboard">
-        <font color="white">LAST BlOCK</font>
+<script type="text/javascript" async src="app.js"></script>
+<head>
+  <meta charset="utf-8" />
+  <title>Ethereum Blockchain Dashboard</title>
+  <link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+  <h2>Ethereum Blockchain Dashboard</h2>
+  <div class="wrapper">
+    <div class="dashboard">
+      <div class="lastblock">
+        <font>Last Block</font>
+        <h3><span id="lastblockno"></span></h3>
+      </div>
+      <div class="transactions">
+        <font>Transactions</font>
+        <h3><span id="transactionsno"></span></h3>
+      </div>
+      <div class="hashrate">
+        <font>Hash Rate</font>
+        <h4><span id="avghashrate"></span></h4>
+      </div>
+      <div class="netdifficulty">
+        <font>Network Difficulty</font>
+        <h4><span id="avgdifficulty"></span></h4>
       </div>
     </div>
-  </body>
+  </div>
+</body>
 </html>

@@ -1,6 +1,5 @@
 .wrapper {
   position: relative;
-  margin-right: 15px;
   margin-bottom: 20px;
 }
 
@@ -10,4 +9,27 @@
   padding: 20px;
 }
 
+h3, h4 {
+  margin-top: 10px;
+  line-height: 1px;
+}
 
+.lastblock, .transactions {
+  padding-top: 20px;
+  font-size: 20px;
+  text-transform: uppercase;
+}
+
+.lastblock, .hashrate{
+  float: left;
+}
+
+.transactions, .netdifficulty {
+  text-align: right;
+}
+
+.lastblock::before, .transactions::after {
+  clear: both;
+  content: " ";
+  display: table;
+}
