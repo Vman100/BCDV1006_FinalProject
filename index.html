@@ -5,11 +5,19 @@
   <meta charset="utf-8" />
   <title>Ethereum Blockchain Dashboard</title>
   <link rel="stylesheet" type="text/css" href="style.css" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 </head>
 <body>
   <h2>Ethereum Blockchain Dashboard</h2>
   <div class="wrapper">
     <div class="dashboard">
+      <i class="fas fa-globe"></i>
+      <font>MARKET CAP OF <span id="marketcap"></span></font>
+      <label class="switch">
+        <input type="checkbox" id="toggle" checked>
+        <span class="slider"></span>
+      </label>
+      <div class="price"><h3><font><span id="price"></span> BTC/ETH</font></h3></div>
       <div class="lastblock">
         <font>Last Block</font>
         <h3><span id="lastblockno"></span></h3>
@@ -27,6 +35,12 @@
         <h4><span id="avgdifficulty"></span></h4>
       </div>
     </div>
+    <form>
+      <input id="input" type="text" placeholder="enter ethereum address">
+      <input id="submit" type="submit">
+    </form>
+    <table id="minedblockslist">
+    </table>
   </div>
 </body>
 </html>

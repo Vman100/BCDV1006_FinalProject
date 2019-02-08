@@ -1,12 +1,35 @@
 .wrapper {
   position: relative;
-  margin-bottom: 20px;
+  width: 50%;
 }
 
 .dashboard {
   background: #3498db;
   color: white;
   padding: 20px;
+  margin-bottom: 20px;
+}
+
+#minedblockslist {
+border-collapse: collapse;
+border-spacing: 0;
+}
+
+form {
+  margin-bottom: 20px;
+}
+
+i {
+  font-family: simple-line-icons;
+  font-style: normal;
+  float: left;
+  font-size: 50px;
+  margin-right: 16px;
+  margin-bottom: 20px;
+}
+
+i::before {
+  content: "\e037";
 }
 
 h3, h4 {
@@ -28,8 +51,48 @@ h3, h4 {
   text-align: right;
 }
 
-.lastblock::before, .transactions::after {
+.lastblock::before, .transactions::after, .price::after {
   clear: both;
   content: " ";
   display: table;
+}
+
+.switch {
+  float: right;
+  position: relative;
+  width: 26px;
+  height: 14px;
+}
+
+.switch input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: lightgray;
+  transition: .4s;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 12px;
+  width: 12px;
+  left: 1px;
+  bottom: 1px;
+  background-color: white;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: cyan;
+}
+
+input:checked + .slider:before {
+  transform: translateX(14px);
 }
