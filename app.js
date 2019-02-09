@@ -1,9 +1,28 @@
-var marketCapUrl = "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH&tsyms=USD"
+var realtime = null
+var updateInterval = (5000)
+const setIntervalAsync = (fn, ms) => {
+  return fn().then(() => {
+    timeout = setTimeout(() => setIntervalAsync(fn, ms), ms)
+  return timeout
+  })
+}
+
+document.getElementById("toggle").addEventListener("change", onSwitchChange)
+async function onSwitchChange(){
+  if(this.checked) {
+    if (realtime !== null) return 
+    realtime = await setIntervalAsync(() => dashboard(),updateInterval)
+  } else {
+    clearTimeout(timeout)
+    timeout = null
+    realtime = null
+  }
+}
 
 //fetch Data
 const fetchData = (action) => {
   const apiKey = "5XKQA6GX56G7IZUUTEZ88X916BQNI8J2EX"
-  const url=`https://api.etherscan.io/api?${action}&${apiKey}`
+  const url=`https://api.etherscan.io/api?${action}&apikey=${apiKey}`
   return fetch(url)
 }
 
@@ -21,8 +40,8 @@ const getBlockByNumber = (hexnumber) => {
   return `module=proxy&action=eth_getBlockByNumber&tag=${hexnumber}&boolean=true`
 }
 
+var marketCapUrl = "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH&tsyms=USD"
 const  dashboard = async () => {
-  
   const nBlockInfo = async (number) => {
     const nBlock = "0x"+ parseInt(lastBlockInfo.number - number).toString(16)
     const info = await fetchData(getBlockByNumber(nBlock)).then(Resp => parseJson(Resp))
@@ -38,7 +57,7 @@ const  dashboard = async () => {
   }
   
   // set veriables for calculations
-  const getMarketCap = await fetch(marketCapUrl).then(Resp => parseJson(Resp))
+  // const getMarketCap = await fetch(marketCapUrl).then(Resp => parseJson(Resp))
   const getPrice = await fetchData("module=stats&action=ethprice").then(Resp => parseJson(Resp))
   const lastBlockInfo = await fetchData(getBlockByNumber("latest")).then(Resp => parseJson(Resp))
   const nBlock1 = await nBlockInfo(byNumber(true))
@@ -58,18 +77,18 @@ const  dashboard = async () => {
   
   // clear text if exits
   for (let e of domArray) {
-    if (e.textContent != "") {
-      e.textContent = ""
+    if (e.innerHTML != "") {
+      e.innerHTMLS = ""
     }
   }
   
   // add to html
-  marketCap.textContent = `${(getMarketCap.MKTCAP / 1e9).toFixed(3)} BILLION`
-  price.textContent = `${getPrice.ethusd} @ ${getPrice.ethbtc}`
-  lastBlock.textContent = Number(lastBlockInfo.number)
-  Transactions.textContent = Number(lastBlockInfo.transactions.length)
-  hashRate.textContent = `${(avghashRate / 1e9).toFixed(2)} GH/s` 
-  difficulty.textContent = `${(lastBlockInfo.difficulty / 1e12).toFixed(2)} TH`
+  //marketCap.innerHTML = `${(getMarketCap.MKTCAP / 1e9).toFixed(3)} BILLION`
+  price.innerHTML = `${getPrice.ethusd} @ ${getPrice.ethbtc}`
+  lastBlock.innerHTML = Number(lastBlockInfo.number)
+  Transactions.innerHTML = Number(lastBlockInfo.transactions.length)
+  hashRate.innerHTML = `${(avghashRate / 1e9).toFixed(2)} GH/s` 
+  difficulty.innerHTML = `${(lastBlockInfo.difficulty / 1e12).toFixed(2)} TH` 
 }
 
 dashboard()
