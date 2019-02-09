@@ -1,12 +1,15 @@
 var realtime = null
 var updateInterval = (5 * 60 * 1000)
+
+// set asynchronous interval
 const setIntervalAsync = (fn, ms) => {
   return fn().then(() => {
     timeout = setTimeout(() => setIntervalAsync(fn, ms), ms)
-  return timeout
+    return timeout
   })
 }
 
+// enable or disable realtime updates
 document.getElementById("toggle").addEventListener("change", onSwitchChange)
 async function onSwitchChange(){
   if(this.checked) {
@@ -40,14 +43,18 @@ const getBlockByNumber = (hexnumber) => {
   return `module=proxy&action=eth_getBlockByNumber&tag=${hexnumber}&boolean=true`
 }
 
+// Build dashboard
 var marketCapUrl = "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH&tsyms=USD"
 const  dashboard = async () => {
+
+  // get nBlock number and fetch data
   const nBlockInfo = async (number) => {
     const nBlock = "0x"+ parseInt(lastBlockInfo.number - number).toString(16)
     const info = await fetchData(getBlockByNumber(nBlock)).then(Resp => parseJson(Resp))
     return info
   }
   
+  // get subtraction/division number
   const byNumber = (firstNum) => {
     if (firstNum === true) {
       return 5000
@@ -92,3 +99,51 @@ const  dashboard = async () => {
 }
 
 dashboard()
+
+// build blocks mined Table
+const addressForm = document.getElementById("addressform")
+addressForm.addEventListener("submit", async function(e) {
+  e.preventDefault()
+  var address = document.getElementById("input").value
+  const blocksMinedUrl = `module=account&action=getminedblocks&address=${address}&blocktype=blocks&page=1&offset=50`
+  const getBlocksMined = await fetchData(blocksMinedUrl).then(Resp => parseJson(Resp))
+  const Table = document.getElementById("minedblockslist")
+  const getRow = document.getElementsByClassName("blocksMinedRow")
+  let header = Object.keys(getBlocksMined[0])
+  let headerRow = Table.insertRow(0)
+  
+  //clear table rows if exists
+  if (getRow.length !== 0) {
+    Table.deleteRow(0)
+  } else {
+
+    // add data rows
+    for (let i = 0; i < getBlocksMined.length; i++) {
+      let dataRow = Table.insertRow(-1)
+      for (let j = 0; j < header.length; j++)  {
+        let cell = dataRow.insertCell(-1)
+        cell.className = "blocksMinedRow"
+        if (header[j] === "timeStamp") {
+          cell.innerHTML = new Date(Number(getBlocksMined[i][header[j]]) * 1000)
+        } else if (header[j] === "blockReward") {
+          cell.innerHTML = getBlocksMined[i][header[j]] / 1e18
+        } else {
+          cell.innerHTML = getBlocksMined[i][header[j]]
+        }
+      }
+    }
+    
+    // add header row
+    for (let i = 0; i < header.length; i++) {
+      const headerCell = document.createElement("th")
+      headerCell.className = "blocksMinedRow"
+      if (header[i].startsWith("block")) {
+        headerCell.innerHTML = header[i].charAt(0).toUpperCase() + header[i].slice(1, 5) + " " + header[i].slice(5)
+      } else {
+        headerCell.innerHTML = header[i].charAt(0).toUpperCase() + header[i].slice(1, 4) + " " + header[i].slice(4)
+      }
+      headerRow.appendChild(headerCell)
+    }
+  }
+  e.target.id = ""
+})
