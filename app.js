@@ -1,5 +1,5 @@
 var realtime = null
-var updateInterval = (5000)
+var updateInterval = (5 * 60 * 1000)
 const setIntervalAsync = (fn, ms) => {
   return fn().then(() => {
     timeout = setTimeout(() => setIntervalAsync(fn, ms), ms)
@@ -57,7 +57,7 @@ const  dashboard = async () => {
   }
   
   // set veriables for calculations
-  // const getMarketCap = await fetch(marketCapUrl).then(Resp => parseJson(Resp))
+  const getMarketCap = await fetch(marketCapUrl).then(Resp => parseJson(Resp))
   const getPrice = await fetchData("module=stats&action=ethprice").then(Resp => parseJson(Resp))
   const lastBlockInfo = await fetchData(getBlockByNumber("latest")).then(Resp => parseJson(Resp))
   const nBlock1 = await nBlockInfo(byNumber(true))
@@ -83,7 +83,7 @@ const  dashboard = async () => {
   }
   
   // add to html
-  //marketCap.innerHTML = `${(getMarketCap.MKTCAP / 1e9).toFixed(3)} BILLION`
+  marketCap.innerHTML = `${(getMarketCap.MKTCAP / 1e9).toFixed(3)} BILLION`
   price.innerHTML = `${getPrice.ethusd} @ ${getPrice.ethbtc}`
   lastBlock.innerHTML = Number(lastBlockInfo.number)
   Transactions.innerHTML = Number(lastBlockInfo.transactions.length)
