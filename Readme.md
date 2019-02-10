@@ -8,7 +8,7 @@ The Blocks Mined Table is Built based on the provided ethereum address and shows
 
 ## Getting Started
 
-1. Clone this repository `git clone https://github.com/Vman100/BCDV1006_FinalProject`
+1. Clone this repository `git clone https://github.com/Vman100/Ethereum-Dashboard-with-Blocks-Mined-Table`
 2. change to desired folder
 3. open index.html file
 
